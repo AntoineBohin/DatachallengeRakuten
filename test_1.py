@@ -22,21 +22,26 @@ def article_tokenize(article):
         raise Exception("The function takes a string as input data")
     else:
         tokens=word_tokenize(article)
-        return tokens
+        res=[]
+        for x in tokens:
+            if len(x)>1:
+                res.append(x)
+        return res
 
 def langue(article) :
-    english = 0
-    french = 0
-    words = article_tokenize(article)
-    for word in words :
+    liste=[0,0,0]
+    liste_langue=["french","english","german"]
+    for word in article :
         if word in stopwords.words("english") :
-            english += 1
+            liste[1] += 1
         if word in stopwords.words("french") :
-            french += 1
-    if french < english : 
-        return("english")
-    else : 
-        return("french")
+            liste[0] += 1
+        if word in stopwords.words("german") :
+            liste[2] += 1
+    res = max(liste[0],liste[1],liste[2])
+    print(liste)
+    return liste_langue[liste.index(res)]
+  
 
 def remove_stop_words(texte_token ,stop_word):
     res=[]
@@ -66,16 +71,25 @@ def collection_lemmatize(segmented_collection):
 Stopwords=set(stopwords.words("english"))
 Stopwords=Stopwords.union(set(stopwords.words("french")))
 Stopwords=Stopwords.union(set(string.punctuation))
+Stopwords=Stopwords.union(set(stopwords.words("german")))
 
 
 def segmentation (text):
-    language=langue(text)
     tokenized_corpus=article_tokenize(text)
+    language=langue(tokenized_corpus)
+    print(language)
     filtered_collection = remove_stop_words(tokenized_corpus,Stopwords)
     lemmatized_collection=collection_lemmatize(filtered_collection)
     stemmed_collection=collection_stemming(lemmatized_collection,language)
     final=remove_stop_words(stemmed_collection,Stopwords)
     return(final)
+
+
+texte="Politische Bildung In Der Einwanderungsgesellschaft"
+print(segmentation(texte))
+
+
+
 
 
 def vocabulaire():
@@ -93,8 +107,6 @@ def vocabulaire():
         if x==5203:
             return (set_final)
 
-print(vocabulaire())
-
-
+#print(vocabulaire())
 
 

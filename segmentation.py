@@ -7,18 +7,41 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 import string
 import unidecode
-
+import csv
 
 
 def article_tokenize(article):
     article=article.replace("'"," ")
+    for i in range(10):
+        article=article.replace(str(i)," ")
+    for i in range(len(article)):
+        lettre=article[i].lower()
+        article=article[:i] + lettre + article[i+1:]
     article=unidecode.unidecode(article)
     if type(article)!= str:
         raise Exception("The function takes a string as input data")
     else:
         tokens=word_tokenize(article)
-        return tokens
+        res=[]
+        for x in tokens:
+            if len(x)>1:
+                res.append(x)
+        return res
 
+def langue(article) :
+    liste=[0,0,0]
+    liste_langue=["french","english","german"]
+    for word in article :
+        if word in stopwords.words("english") :
+            liste[1] += 1
+        if word in stopwords.words("french") :
+            liste[0] += 1
+        if word in stopwords.words("german") :
+            liste[2] += 1
+    res = max(liste[0],liste[1],liste[2])
+    print(liste)
+    return liste_langue[liste.index(res)]
+  
 
 def remove_stop_words(texte_token ,stop_word):
     res=[]
@@ -28,10 +51,9 @@ def remove_stop_words(texte_token ,stop_word):
     return res
     
 
-def collection_stemming(segmented_collection):
+def collection_stemming(segmented_collection,language):
     stemmed_collection=[]
-    stemmer = SnowballStemmer(language='french')
-    #stemmer = PorterStemmer ()
+    stemmer = SnowballStemmer(language=str(language))
     for i in segmented_collection:
         stemmed_collection.append(stemmer.stem(i))
     return stemmed_collection
@@ -49,14 +71,15 @@ def collection_lemmatize(segmented_collection):
 Stopwords=set(stopwords.words("english"))
 Stopwords=Stopwords.union(set(stopwords.words("french")))
 Stopwords=Stopwords.union(set(string.punctuation))
+Stopwords=Stopwords.union(set(stopwords.words("german")))
 
 
 def segmentation (text):
     tokenized_corpus=article_tokenize(text)
+    language=langue(tokenized_corpus)
+    print(language)
     filtered_collection = remove_stop_words(tokenized_corpus,Stopwords)
     lemmatized_collection=collection_lemmatize(filtered_collection)
-    stemmed_collection=collection_stemming(lemmatized_collection)
+    stemmed_collection=collection_stemming(lemmatized_collection,language)
     final=remove_stop_words(stemmed_collection,Stopwords)
     return(final)
-
-
