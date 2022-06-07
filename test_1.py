@@ -85,8 +85,6 @@ def segmentation (text):
     return(final)
 
 
-texte="Politische Bildung In Der Einwanderungsgesellschaft"
-print(segmentation(texte))
 
 
 

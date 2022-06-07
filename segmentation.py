@@ -52,11 +52,12 @@ def remove_stop_words(texte_token ,stop_word):
     
 
 def collection_stemming(segmented_collection,language):
-    stemmed_collection=[]
-    stemmer = SnowballStemmer(language=str(language))
-    for i in segmented_collection:
-        stemmed_collection.append(stemmer.stem(i))
-    return stemmed_collection
+    if language != "japanese":
+        stemmed_collection=[]
+        stemmer = SnowballStemmer(language=str(language))
+        for i in segmented_collection:
+            stemmed_collection.append(stemmer.stem(i))
+        return stemmed_collection
 
 
 def collection_lemmatize(segmented_collection):
@@ -83,3 +84,6 @@ def segmentation (text):
     stemmed_collection=collection_stemming(lemmatized_collection,language)
     final=remove_stop_words(stemmed_collection,Stopwords)
     return(final)
+
+texte="Sous Container Case Sac De Rangement Portable Voyage Box Protect Bra Organisateur"
+print(segmentation(texte))
