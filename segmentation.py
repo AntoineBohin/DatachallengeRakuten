@@ -7,13 +7,11 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 import string
 import unidecode
-import csv
+
 
 
 def article_tokenize(article):
     article=article.replace("'"," ")
-    for i in range(10):
-        article=article.replace(str(i)," ")
     article=unidecode.unidecode(article)
     if type(article)!= str:
         raise Exception("The function takes a string as input data")
@@ -62,39 +60,3 @@ def segmentation (text):
     return(final)
 
 
-def vocabulaire():
-    set_final=set()
-    file= open (r"./dataset/X_train_update.csv")
-    myReader = csv.reader(file)
-    x=0
-    for row in myReader:
-        texte=row[2]
-        ensemble=set(segmentation(texte))
-        set_final=set_final.union(ensemble)
-        ensemble=set(segmentation(texte))
-        set_final=set_final.union(ensemble)
-        x+=1
-        if x==5203:
-            return (set_final)
-
-#print(vocabulaire())
-
-
-def langue(article) :
-    english = 0
-    french = 0
-    words = article_tokenize(article)
-    for word in words :
-        if word in stopwords.words("english") :
-            english += 1
-        if word in stopwords.words("french") :
-            french += 1
-    if french < english : 
-        return("english")
-    else : 
-        return("french")
-
-
-texte="Camping En Plein Air Épais Matelas De Sol Automatique Gonfler Avec Oreiller Attaché"
-print(article_tokenize(texte))
-print(segmentation(texte))
