@@ -14,6 +14,9 @@ def article_tokenize(article):
     article=article.replace("'"," ")
     for i in range(10):
         article=article.replace(str(i)," ")
+    for i in range(len(article)):
+        lettre=article[i].lower()
+        article=article[:i] + lettre + article[i+1:]
     article=unidecode.unidecode(article)
     if type(article)!= str:
         raise Exception("The function takes a string as input data")
@@ -21,6 +24,19 @@ def article_tokenize(article):
         tokens=word_tokenize(article)
         return tokens
 
+def langue(article) :
+    english = 0
+    french = 0
+    words = article_tokenize(article)
+    for word in words :
+        if word in stopwords.words("english") :
+            english += 1
+        if word in stopwords.words("french") :
+            french += 1
+    if french < english : 
+        return("english")
+    else : 
+        return("french")
 
 def remove_stop_words(texte_token ,stop_word):
     res=[]
@@ -30,10 +46,9 @@ def remove_stop_words(texte_token ,stop_word):
     return res
     
 
-def collection_stemming(segmented_collection):
+def collection_stemming(segmented_collection,language):
     stemmed_collection=[]
-    stemmer = SnowballStemmer(language='french')
-    #stemmer = PorterStemmer ()
+    stemmer = SnowballStemmer(language=str(language))
     for i in segmented_collection:
         stemmed_collection.append(stemmer.stem(i))
     return stemmed_collection
@@ -54,10 +69,11 @@ Stopwords=Stopwords.union(set(string.punctuation))
 
 
 def segmentation (text):
+    language=langue(text)
     tokenized_corpus=article_tokenize(text)
     filtered_collection = remove_stop_words(tokenized_corpus,Stopwords)
     lemmatized_collection=collection_lemmatize(filtered_collection)
-    stemmed_collection=collection_stemming(lemmatized_collection)
+    stemmed_collection=collection_stemming(lemmatized_collection,language)
     final=remove_stop_words(stemmed_collection,Stopwords)
     return(final)
 
@@ -77,24 +93,8 @@ def vocabulaire():
         if x==5203:
             return (set_final)
 
-#print(vocabulaire())
+print(vocabulaire())
 
 
-def langue(article) :
-    english = 0
-    french = 0
-    words = article_tokenize(article)
-    for word in words :
-        if word in stopwords.words("english") :
-            english += 1
-        if word in stopwords.words("french") :
-            french += 1
-    if french < english : 
-        return("english")
-    else : 
-        return("french")
 
 
-texte="Camping En Plein Air Épais Matelas De Sol Automatique Gonfler Avec Oreiller Attaché"
-print(article_tokenize(texte))
-print(segmentation(texte))
