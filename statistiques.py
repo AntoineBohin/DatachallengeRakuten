@@ -9,6 +9,7 @@ from sympy import rotations
 df_x = pd.read_csv('./dataset/X_train_update.csv')
 df_y = pd.read_csv('./dataset/Y_train_CVw08PX.csv')
 
+
 ## on compte le nombre d'occurences de chaque classe
 classes = {}
 n = len(df_y)
@@ -73,4 +74,32 @@ def langues():
                 langues[detect_language] += 1
     return langues
 
-print(langues())
+#fonction qui classe chaque produit dans une categorie en fonction de son doc_id
+
+def categories(df_x, df_y):
+    categories = {}
+    n = len(df_y)
+    for i in range(1,n):
+        value = df_y.iloc[i]
+        product = df_x.iloc[i]
+        assert value[0] == product[0]
+        if value[1] not in categories.keys():
+            categories[value[1]] = [product[3]]
+        else: 
+            categories[value[1]] = categories[value[1]] + [product[3]]
+    return categories
+
+def hasDescription(df_x, df_y):
+    allDescriptions = {}
+    n = len(df_y)
+    for i in range(1,n):
+        value = df_y.iloc[i]
+        product = df_x.iloc[i]
+        description = product['description']
+        if type(description) == float and m.isnan(description) :
+            """does nothing"""
+        elif value[1] not in allDescriptions.keys():
+            allDescriptions[value[1]] = [product[3]]
+        else: 
+            allDescriptions[value[1]] = allDescriptions[value[1]] + [product[3]]
+    return allDescriptions
