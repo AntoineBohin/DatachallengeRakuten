@@ -39,7 +39,6 @@ def langue(article) :
         if word in stopwords.words("german") :
             liste[2] += 1
     res = max(liste[0],liste[1],liste[2])
-    print(liste)
     return liste_langue[liste.index(res)]
   
 
@@ -84,6 +83,3 @@ def segmentation (text):
     stemmed_collection=collection_stemming(lemmatized_collection,language)
     final=remove_stop_words(stemmed_collection,Stopwords)
     return(final)
-
-texte="Sous Container Case Sac De Rangement Portable Voyage Box Protect Bra Organisateur"
-print(segmentation(texte))
