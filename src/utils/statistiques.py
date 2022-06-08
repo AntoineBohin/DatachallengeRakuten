@@ -7,8 +7,8 @@ from textblob import TextBlob
 from charset_normalizer import detect
 from sympy import rotations
 
-df_x = pd.read_csv('./dataset/X_train_update.csv')
-df_y = pd.read_csv('./dataset/Y_train_CVw08PX.csv', index_col = [0])
+df_x = pd.read_csv('../../dataset/base/X_train_update.csv')
+df_y = pd.read_csv('../../dataset/base/Y_train_CVw08PX.csv', index_col = [0])
 
 ## on compte le nombre d'occurences de chaque classe
 classes = {}
@@ -129,5 +129,5 @@ def completedDataframe(df_x, df_y):
     return df_x2
 
 new_df = completedDataframe(df_x, df_y)
-csv_complet = new_df.to_csv('./dataset/X_train_with_description.csv', index = False)
+csv_complet = new_df.to_csv('../../dataset/base/X_train_with_description.csv', index = False)
 

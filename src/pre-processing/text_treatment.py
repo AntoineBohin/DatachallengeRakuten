@@ -124,7 +124,7 @@ def csv_pipeline(csv_path_X,csv_path_Y):
     return(train)
 
 
-train=csv_pipeline('./dataset/X_train_update.csv','./dataset/Y_train_CVw08PX.csv')
+train=csv_pipeline('../../dataset/base/X_train_update.csv','../../dataset/base/Y_train_CVw08PX.csv')
 
 #filtered_collection = remove_stop_words(tokenized_corpus,Stopwords)
 #print(filtered_collection)
