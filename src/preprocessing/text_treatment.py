@@ -13,12 +13,7 @@ import unidecode
 import string
 
 
-#from transformers import CamembertTokenizer 
-"""
-tokenizer = CamembertTokenizer.from_pretrained("camembert-base")
-res = tokenizer.tokenize("Lolo le crado !")
-print(res)
-"""
+
 
 #Cette fonction est utilisée pour nettoyer les textes (titre, descriptif), notamment les bases de HTML ou autres caractères problématiques
 def cleanhtml(raw_html):
@@ -131,11 +126,3 @@ train=csv_pipeline('../../dataset/base/X_train_update.csv','../../dataset/base/Y
 
 train.to_csv('processed_X_Y_train.csv', index=False)
 
-
-tfidf = TfidfVectorizer()
-
-"""
-X_tfidf_sample= tfidf.fit_transform(seq)
-print("Shape of the TF-IDF Matrix:")
-print(X_tfidf_sample)
-"""

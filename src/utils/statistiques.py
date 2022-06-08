@@ -7,8 +7,8 @@ from textblob import TextBlob
 from charset_normalizer import detect
 from sympy import rotations
 
-df_x = pd.read_csv('../../dataset/base/X_train_update.csv')
-df_y = pd.read_csv('../../dataset/base/Y_train_CVw08PX.csv', index_col = [0])
+df_x = pd.read_csv('./dataset/baseData/X_train_update.csv')
+df_y = pd.read_csv('./dataset/baseData/Y_train_CVw08PX.csv', index_col = [0])
 
 ## on compte le nombre d'occurences de chaque classe
 classes = {}
@@ -41,7 +41,7 @@ plt.bar(range(len(list)), list)
 plt.title("fréquences d'apparition dans chaque catégorie")
 plt.ylabel("frequence (%)")
 plt.xticks(range(len(frequences.keys())), sorted(frequences.keys()),rotation='vertical')
-#plt.show()
+plt.show()
 
 ## on compte le nombre de description vides parmi l'ensemble des descriptions 
 def pagesVides():
@@ -129,5 +129,5 @@ def completedDataframe(df_x, df_y):
     return df_x2
 
 new_df = completedDataframe(df_x, df_y)
-csv_complet = new_df.to_csv('../../dataset/base/X_train_with_description.csv', index = False)
+#csv_complet = new_df.to_csv('../../dataset/base/X_train_with_description.csv', index = False)
 
