@@ -8,9 +8,9 @@ from lightgbm import train
 from scipy import sparse
 
 
-train_csv = pd.read_csv('processed_and_concatenated_X_Y_train.csv', index_col=0)
+train_csv = pd.read_csv('./dataset/processed_and_concatenated_X_Y_train.csv', index_col=0)
 
-X_tfidf_sample = sparse.load_npz("./X_consolidated_without_numbers.npz")
+X_tfidf_sample = sparse.load_npz("./dataset/X_consolidated_without_numbers.npz")
 
 SVM = svm.SVC(C=1.0, kernel='linear', degree=3, gamma='auto')
 SVM.fit(X_tfidf_sample[0:3000],train_csv["ProductTypeCode"][0:3000])

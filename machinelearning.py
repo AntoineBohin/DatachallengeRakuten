@@ -3,9 +3,9 @@ from sklearn.naive_bayes import MultinomialNB
 from scipy import sparse
 import pandas as pd
 
-train_csv = pd.read_csv('processed_and_concatenated_X_Y_train.csv', index_col=0)
+train_csv = pd.read_csv('./dataset/processed_and_concatenated_X_Y_train.csv', index_col=0)
 
-X_tfidf_sample = sparse.load_npz("./X_consolidated_without_numbers.npz")
+X_tfidf_sample = sparse.load_npz("./dataset/X_consolidated_without_numbers.npz")
 
 
 

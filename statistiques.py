@@ -133,5 +133,5 @@ def completedDataframe(df_x, df_y):
 
 
 new_df = completedDataframe(df_x, df_y)
-csv_complet = new_df.to_csv('./X_train_with_description.csv', index = False)
+csv_complet = new_df.to_csv('./dataset/X_train_with_description.csv', index = False)
 
