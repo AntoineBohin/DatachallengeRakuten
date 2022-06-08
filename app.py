@@ -24,7 +24,7 @@ def main_evaluation(X_test_path,Y_test_path,path_root_output,model):
     if model=='multinomialnb':
         evaluate_model_nb(tfidfMatrix,dataframe_processed_and_concatenated)
     if model=='customnn':
-        evaluate_model_customnn()
+        evaluate_model_customnn(tfidfMatrix,dataframe_processed_and_concatenated)
 
     pass
 
