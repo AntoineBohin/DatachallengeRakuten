@@ -10,7 +10,6 @@ from sympy import rotations
 df_x = pd.read_csv('./dataset/X_train_update.csv')
 df_y = pd.read_csv('./dataset/Y_train_CVw08PX.csv', index_col = [0])
 
-
 ## on compte le nombre d'occurences de chaque classe
 classes = {}
 n = len(df_y)
@@ -34,10 +33,10 @@ def frequency(dict):
         new_dict[key] = dict[key]/n*100
     return new_dict
 
-frequences = frequency(classes)
+frequences = frequency(classes) # Dictionnaire qui présente les fréquences d'appariton de chaque catégorie de produit 
 
+## On affiche un graphique en 
 list = [frequences[key] for key in sorted(frequences.keys())]
-
 plt.bar(range(len(list)), list)
 plt.title("fréquences d'apparition dans chaque catégorie")
 plt.ylabel("frequence (%)")
@@ -111,8 +110,6 @@ def hasDescription(df_x, df_y):
 ## (donc de même catégorie) 
 
 allDescriptions = hasDescription(df_x, df_y)
-#print(allDescriptions)
-
 def completedDataframe(df_x, df_y):
     df_x2 = df_x.copy(deep=True)
     n = len(df_x)
@@ -130,7 +127,6 @@ def completedDataframe(df_x, df_y):
         else: 
             """"la description reste la même car elle existe déjà"""
     return df_x2
-
 
 new_df = completedDataframe(df_x, df_y)
 csv_complet = new_df.to_csv('./dataset/X_train_with_description.csv', index = False)

@@ -14,7 +14,7 @@ print("Shape of the TF-IDF Matrix:")
 print(X_tfidf_sample)
 """
 """
-train=pd.read_csv('processed_X_Y_train.csv', names=['IntegerID', 'Title', 'Description', 'ProductID', 'ImageID', 'ProductTypeCode'],skiprows=[0])
+train=pd.read_csv('./dataset/processed_X_Y_train.csv', names=['IntegerID', 'Title', 'Description', 'ProductID', 'ImageID', 'ProductTypeCode'],skiprows=[0])
 
 train["TitleAndDescription"]=""
 for k in range(len(train)):
@@ -32,7 +32,7 @@ print(train["TitleAndDescription"])
 
 train.to_csv('processed_and_concatenated_X_Y_train.csv', index=False)
 """
-train=pd.read_csv('processed_and_concatenated_X_Y_train.csv', names=['IntegerID', 'Title', 'Description', 'ProductID', 'ImageID', 'ProductTypeCode', 'TitleAndDescription'],skiprows=[0])
+train=pd.read_csv('./dataset/processed_and_concatenated_X_Y_train.csv', names=['IntegerID', 'Title', 'Description', 'ProductID', 'ImageID', 'ProductTypeCode', 'TitleAndDescription'],skiprows=[0])
 
 X_tfidf_sample=tfidf.fit_transform(train["TitleAndDescription"])
 
@@ -44,4 +44,4 @@ print("TF-IDF Matrix:")
 #print(X_tfidf_sample.todense())
 print(tfidf.get_feature_names())
 
-sparse.save_npz("./X_consolidated_without_numbers.npz", X_tfidf_sample)
+sparse.save_npz("./dataset/X_consolidated_without_numbers.npz", X_tfidf_sample)
