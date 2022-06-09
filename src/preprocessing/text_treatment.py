@@ -29,12 +29,16 @@ def description_and_title_clean(dataframe):
     dataframe["Description"].apply(cleanhtml)
     dataframe["Title"].apply(cleanhtml)
 
-def process_csv(csv_path_X,csv_path_Y):
+def process_csv(csv_path_X,evaluation,csv_path_Y=''):
     X_train_df=pd.read_csv(csv_path_X, names=['IntegerID', 'Title', 'Description', 'ProductID', 'ImageID'],skiprows=[0])
-    Y_train_df=pd.read_csv(csv_path_Y, names=['IntegerID', 'ProductTypeCode'],skiprows=[0])
-    train= X_train_df.merge(Y_train_df[['IntegerID', 'ProductTypeCode']], how = 'left', on = 'IntegerID')
+    if evaluation==True:  
+        Y_train_df=pd.read_csv(csv_path_Y, names=['IntegerID', 'ProductTypeCode'],skiprows=[0])  
+        train= X_train_df.merge(Y_train_df[['IntegerID', 'ProductTypeCode']], how = 'left', on = 'IntegerID')
+    else:
+        train=X_train_df
     train["Title"]=train["Title"].astype("string")
     train["Description"]=train["Description"].astype("string")  
+    
     return(train)
 
 def article_tokenize(article):
@@ -112,17 +116,17 @@ def text_treatment_of_the_csv(dataframe):
         dataframe["Title"][k]=title
     return(dataframe)
 
-def csv_pipeline(csv_path_X,csv_path_Y):
-    train=process_csv(csv_path_X,csv_path_Y)
+def csv_pipeline(csv_path_X,evaluation,csv_path_Y=""):
+    train=process_csv(csv_path_X,evaluation,csv_path_Y)
     train=text_treatment_of_the_csv(train)
     print(train)
     return(train)
 
 
-train=csv_pipeline('../../dataset/base/X_train_update.csv','../../dataset/base/Y_train_CVw08PX.csv')
+#train=csv_pipeline('../../dataset/base/X_train_update.csv','../../dataset/base/Y_train_CVw08PX.csv')
 
 #filtered_collection = remove_stop_words(tokenized_corpus,Stopwords)
 #print(filtered_collection)
 
-train.to_csv('processed_X_Y_train.csv', index=False)
+#train.to_csv('processed_X_Y_train.csv', index=False)
 
