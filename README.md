@@ -23,13 +23,13 @@ Contient l'ensemble des scripts python ainsi que les modèles de machine learnin
 
 Pour exécuter le code, vous avez le choix entre deux possibilités.
 
-###Evaluation d'un modèle sur une base de données annotées
+### Evaluation d'un modèle sur une base de données annotées
 
 ```bash
 python3 main_prediction.py --csv-to-test 'dataset/baseData/X_test_update.csv.csv' --path-root 'dataset/test/' --model 'multinomialnb'
 ```
 
-###Prédiction des classes d'un ensemble de produits avec un certain modèle
+### Prédiction des classes d'un ensemble de produits avec un certain modèle
 
 ```bash
 python3 main_prediction.py --csv-to-test 'dataset/baseData/X_test_update.csv.csv' --path-root 'dataset/test/' --model 'multinomialnb'
