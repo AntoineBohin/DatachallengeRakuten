@@ -21,10 +21,18 @@ Contient l'ensemble des scripts python ainsi que les modèles de machine learnin
 
 ## Exécuter le Code 
 
-Pour exécuter le code, il suffit de rentrer dans le terminal la commande suivante :  
+Pour exécuter le code, vous avez le choix entre deux possibilités.
+
+###Evaluation d'un modèle sur une base de données annotées
 
 ```bash
-python3  -m app.py
+python3 main_prediction.py --csv-to-test 'dataset/baseData/X_test_update.csv.csv' --path-root 'dataset/test/' --model 'multinomialnb'
+```
+
+###Prédiction des classes d'un ensemble de produits avec un certain modèle
+
+```bash
+python3 main_prediction.py --csv-to-test 'dataset/baseData/X_test_update.csv.csv' --path-root 'dataset/test/' --model 'multinomialnb'
 ```
 
 Cette ligne de commande permet de lancer le fichier `app.py` on peut ensuite
