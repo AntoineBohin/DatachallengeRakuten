@@ -5,6 +5,7 @@ that reads the two csv files with pandas and evaluate the custom metric.
 """
 
 # TODO: add here the import necessary to your metric function
+from turtle import color
 import numpy as np
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import f1_score, accuracy_score, recall_score, precision_score
@@ -12,6 +13,7 @@ import pandas as pd
 import seaborn as sn
 import matplotlib.pyplot as plt
 from sqlalchemy import true
+from sympy import rotations
 
 def weighted_F1_score(dataframe_1, dataframe_2):
     y_dataframe_1 = np.array(dataframe_1["prdtypecode"])
@@ -43,15 +45,16 @@ def evaluation_with_confusion_matrix(path_of_the_output_dataframe):
     for k in range(len(output_df)):
         prediction_vector.append(output_df["CodePredictions"][k])
         real_vector.append(output_df["RealProductTypeCodes"][k])
-        if output_df['CodePredictions'] == output_df['RealProductTypeCodes']:
+        inter_class_predictions[output_df["CodePredictions"][k]]+=1
+        if output_df['CodePredictions'][k] == output_df['RealProductTypeCodes'][k]:
             inter_class_good_predictions[output_df["CodePredictions"][k]]+=1
         inter_class_real[output_df["RealProductTypeCodes"][k]]+=1
     for k in range(len(inter_class_real)):
-        inter_class_precision[k] = inter_class_good_predictions[k] / inter_class_predictions[k]
-        inter_class_recall[k] = inter_class_good_predictions[k] / inter_class_real[k] 
-        print('presicion{}'.format(k),inter_class_precision)
-        print('recall{}'.format(k), inter_class_recall)
-    print(inter_class_predictions)
+        inter_class_precision[labels[k]] = inter_class_good_predictions[labels[k]] / inter_class_predictions[labels[k]]
+        inter_class_recall[labels[k]] = inter_class_good_predictions[labels[k]] / inter_class_real[labels[k]] 
+        print('precision{}'.format(labels[k]),inter_class_precision[labels[k]])
+        print('recall{}'.format(labels[k]), inter_class_recall[labels[k]])
+    print(inter_class_recall)
     print(j)
     prediction_vector=np.array(prediction_vector)
     real_vector=np.array(real_vector)
@@ -59,6 +62,15 @@ def evaluation_with_confusion_matrix(path_of_the_output_dataframe):
     print('Accuracy is ',accuracy_score(real_vector,prediction_vector))       #In multilabel classification, this function computes subset accuracy: the set of labels predicted for a sample must exactly match the corresponding set of labels in y_true.
     print('Recall is ',recall_score(real_vector,prediction_vector,average="weighted"))         
     print('Precision is ',precision_score(real_vector,prediction_vector,average="weighted"))   
+
+    X = np.arange(len(inter_class_precision.keys()))
+    plt.bar(X-0.2, list(inter_class_precision.values()), align='center', color='blue', width=0.4)
+    plt.bar(X+0.2, list(inter_class_recall.values()), align='center', color='grey', width=0.4)
+    plt.title("précisions et rappels pour chaque classe ")
+    plt.ylabel("precision (blue) / recall (grey)")
+    plt.xticks(range(len(labels)), labels, rotation='vertical')
+    plt.show()
+
 
     array=confusion_matrix(real_vector,prediction_vector)
     df_res=pd.DataFrame(array)
