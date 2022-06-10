@@ -77,10 +77,6 @@ On a pu utiliser au cours de ce projet 3 modèles de machine learning différent
     • **SVM**  
     • un modèle customisé de réseaux de neurones  
 
-## La classification par reconnaissance d'images 
-
-
-
 ## Requirements 
     keras
     tensorflow 
