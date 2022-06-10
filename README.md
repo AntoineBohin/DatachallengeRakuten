@@ -28,23 +28,23 @@ Pour exécuter le code, vous avez le choix entre deux possibilités.
 
 ### Evaluation d'un modèle sur une base de données annotées
 
-Si vous voulez prédire les classes d'un ensemble de produits (dont les informations sont réunies dans un fichier .csv dont les colonnes sont "IntegerID", "Titre", "Description", "ProductID", "ImageID"), vous pouvez exécuter la ligne de code suivante dans votre terminal. Le paramètre --csv-to-test correspond au path de votre .csv test, --path-root au dossier dans lequel vous souhaitez stocker les .csv et matrices pré-traitées utilisées par les algorithmes, et --model le modèle que vous souhaitez utiliser (entre 'multinomialnb', 'customnn', 'svm', 'logisticregression').
+Si vous voulez prédire les classes d'un ensemble de produits (dont les informations sont réunies dans un fichier .csv dont les colonnes sont `IntegerID`, `Titre`, `Description`, `ProductID`, `ImageID`), vous pouvez exécuter la ligne de code suivante dans votre terminal. Le paramètre --csv-to-test correspond au path de votre .csv test, --path-root au dossier dans lequel vous souhaitez stocker les .csv et matrices pré-traitées utilisées par les algorithmes, et --model le modèle que vous souhaitez utiliser (entre `multinomialnb`, `customnn`, `svm`, `logisticregression`).
 
 ```bash
 python3 main_prediction.py --csv-to-test 'dataset/baseData/X_test_update.csv' --path-root 'dataset/test/' --model 'multinomialnb'
 ```
 
-Le resultat est stocké dans un fichier .csv nommé prediction_without_labels_{nommodèle} dans le dossier output. Il contient les colonnes "IntegerID" et "ProductTypeCode", pour la classe de produit prédite.
+Le resultat est stocké dans un fichier .csv nommé `prediction_without_labels_{nommodèle}` dans le dossier output. Il contient les colonnes `IntegerID` et `ProductTypeCode`, pour la classe de produit prédite.
 
 ### Prédiction des classes d'un ensemble de produits avec un certain modèle
 
-Si vous voulez évaluer un des modèles implémentés en utilisant un ensemble de produits (dont les informations sont réunies dans un fichier .csv X_test dont les colonnes sont "IntegerID", "Titre", "Description", "ProductID", "ImageID") et leurs classes de produit associées (dont les informations sont réunies dans un fichier .csv Y_test dont les colonnes sont "IntegerID", "ProductTypeCode"), vous pouvez exécuter la ligne de code suivante dans votre terminal. Le paramètre --csv-X-test correspond au path de votre .csv X_test, --csv-Y-test correspond au path de votre .csv Y_test, --path-root au dossier dans lequel vous souhaitez stocker les .csv et matrices pré-traitées utilisées par les algorithmes, et --model le modèle que vous souhaitez utiliser (entre 'multinomialnb', 'customnn', 'svm', 'logisticregression').
+Si vous voulez évaluer un des modèles implémentés en utilisant un ensemble de produits (dont les informations sont réunies dans un fichier .csv **X_test** dont les colonnes sont `IntegerID`, `Titre`, `Description`, `ProductID`, `ImageID`) et leurs classes de produit associées (dont les informations sont réunies dans un fichier .csv **Y_test** dont les colonnes sont `IntegerID`, `ProductTypeCode`), vous pouvez exécuter la ligne de code suivante dans votre terminal. Le paramètre --csv-X-test correspond au path de votre .csv X_test, --csv-Y-test correspond au path de votre .csv Y_test, --path-root au dossier dans lequel vous souhaitez stocker les .csv et matrices pré-traitées utilisées par les algorithmes, et --model le modèle que vous souhaitez utiliser (entre `multinomialnb`, `customnn`, `svm`, `logisticregression`).
 
 ```bash
 python3 main_evaluation.py --csv-X-test 'dataset/baseData/X_test_update.csv' --csv-Y-test 'dataset/baseData/Y_test_update.csv' --path-root 'dataset/test/' --model 'multinomialnb'
 ```
 
-e resultat est stocké dans un fichier .csv nommé prediction_{nommodèle} dans le dossier output. Il contient les colonnes "IntegerID","CodePredictions" et " RealProductTypeCodes".
+Le resultat est stocké dans un fichier .csv nommé `prediction_{nommodèle}` dans le dossier output. Il contient les colonnes `IntegerID`,`CodePredictions` et ` RealProductTypeCodes`.
 
 ## Le preprocessing des données d'entrée
 
@@ -61,6 +61,8 @@ Pour répondre à ces impératifs, il s'agit alors de procéder à un pré-proce
 
 Une fois les descriptions existantes traitées, il s'agit alors de donner une description aux produits qui n'en ont pas : pour ce faire on choisit au hasard une description parmi les descriptions des produits de la même catégorie et on lui donne cette description comme si elle était relative au produit considéré.
 
+Enfin, pour permettre l'apprentissage par les modèles de machine learning, il faut mettre les données sous forme d'une matrice tf-idf.
+
 **Images**
 
 Pour pouvoir espérer traiter des images par ordinateur on doit lui donner des images normalisées et on doit pour ce faire lui appliquer plusieurs scripts pour passer d'une base d'images disparates à une collection utilisable pour entrainer une intelligence artificielle. On doit alors:   
@@ -70,6 +72,25 @@ Pour pouvoir espérer traiter des images par ordinateur on doit lui donner des i
 
 ## Les modèles de machine Learning utilisés pour la classification de texte 
 
+On a pu utiliser au cours de ce projet 3 modèles de machine learning différents pour permettre une précision, la plus précise possible, de la catégorie d'un produit inconnu sur le site de rakuten:  
+    • **Multinomial Naive Bayes**
+    • **SVM**
+    • un modèle customisé de réseaux de neurones
+
 ## La classification par reconnaissance d'images 
 
+
+
 ## Requirements 
+    keras
+    tensorflow 
+    scipy 
+    numpy 
+    pickle 
+    pandas 
+    sklearn 
+    lightgbm
+    re
+    nltk 
+    unidecode
+    argparse
