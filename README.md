@@ -12,6 +12,12 @@ Contient l'ensemble des données utilisées par nos algorithmes autant pour le t
     • `processed` qui contient les textes après passage des scripts de traitement de texte avec certaines des descriptions qui manquent.   
     • `processedWIthDescription` qui contient les données utilisées finalement pour l'entrainement de l'algorithme de machine learning avec des descriptions pour chaque produit.  
 
+**models**
+Les différents modèles de ML enregistrés (certains étaient trop volumineux et n'ont pas pu être transférés sur ce github, notamment le modèle du réseau de neurones customisé.
+
+**output**
+Les sorties des algorithmes d'évaluation et de prédiction.
+
 **src**
 Contient l'ensemble des scripts python ainsi que les modèles de machine learning enregistrés et sont séparés en plusieurs catégories:  
     • `mlModelsText` contient les scripts qui servent à entrainer les modèles de machine learning que l'on a utilisé ou testé (SVM, multinomialNB, réseau de neurones personnalisé).  
@@ -19,8 +25,8 @@ Contient l'ensemble des scripts python ainsi que les modèles de machine learnin
     • `models` contient les modèles svm entrainés sur les dataset de training.  
     • `utils` contient d'autres scripts de traitement de l'information comme `statistiques.py` qui permet d'accéder à des informations numériques relatives à la composition du dataset.
 
-**app.py**
-C'est le fichier principal de ce projet qui permet de lancer, en l'appelant en ligne de commande, dans un premier temps l'évaluation d'un modèle et dans un second temps de faire une prédiction pour la catégorie pour un produit inconnu. 
+**main_evaluation.py et main_prediction.py**
+Ce sont les fichiers principaux de ce projet qui permettant de lancer, en les appelant en ligne de commande, l'évaluation d'un modèle ou la prédiction pour la catégorie pour un produit inconnu. 
 
 ## Exécuter le Code 
 
