@@ -9,12 +9,13 @@ from sympy import rotations
 
 df_x = pd.read_csv('./dataset/baseData/X_train_update.csv')
 df_y = pd.read_csv('./dataset/baseData/Y_train_CVw08PX.csv', index_col = [0])
-
+df_x2 = pd.read_csv('./dataset/baseData/X_test_update.csv')
+df_y2 = pd.read_csv('./dataset/baseData/Y_test.csv')
 ## on compte le nombre d'occurences de chaque classe
 classes = {}
-n = len(df_y)
-for i in range(1,n):
-    value = df_y.loc[i][0]
+n = len(df_y2)
+for i in range(n):
+    value = df_y2.loc[i]['prdtypecode']
     if value not in classes.keys():
         classes[value] = 1
     else :
@@ -33,15 +34,15 @@ def frequency(dict):
         new_dict[key] = dict[key]/n*100
     return new_dict
 
-frequences = frequency(classes) # Dictionnaire qui présente les fréquences d'appariton de chaque catégorie de produit 
+#frequences = frequency(classes) # Dictionnaire qui présente les fréquences d'appariton de chaque catégorie de produit 
 
 ## On affiche un graphique en 
-list = [frequences[key] for key in sorted(frequences.keys())]
-plt.bar(range(len(list)), list)
-plt.title("fréquences d'apparition dans chaque catégorie")
-plt.ylabel("frequence (%)")
-plt.xticks(range(len(frequences.keys())), sorted(frequences.keys()),rotation='vertical')
-plt.show()
+#list = [frequences[key] for key in sorted(frequences.keys())]
+#plt.bar(range(len(list)), list)
+#plt.title("fréquences d'apparition dans chaque catégorie")
+#plt.ylabel("frequence (%)")
+#plt.xticks(range(len(frequences.keys())), sorted(frequences.keys()),rotation='vertical')
+#plt.show()
 
 ## on compte le nombre de description vides parmi l'ensemble des descriptions 
 def pagesVides():
@@ -96,15 +97,25 @@ def hasDescription(df_x, df_y):
         product = df_x.iloc[i]
         description = product['description']
         if type(description) == float and m.isnan(description) :
-            if 'No Description' not in allDescriptions.keys():
-                allDescriptions['No Description'] = product[0]
-            else: 
-                allDescriptions['No Description'] = allDescriptions['No Description'] + product[0]
-        elif value[0] not in allDescriptions.keys():
-            allDescriptions[value[0]] = [product[0]]
+            pass
+        elif value['prdtypecode'] not in allDescriptions.keys():
+            allDescriptions[value['prdtypecode']] = 1
         else: 
-            allDescriptions[value[0]] = allDescriptions[value[0]] + [product[0]]
+            allDescriptions[value['prdtypecode']] = allDescriptions[value['prdtypecode']] + 1
     return allDescriptions
+
+dicoDescriptions = hasDescription(df_x2,df_y2)
+print(classes)
+print(dicoDescriptions)
+for key in dicoDescriptions.keys():
+    print(classes[key], dicoDescriptions[key])
+    dicoDescriptions[key] = dicoDescriptions[key] / classes[key]
+list2 = [dicoDescriptions[key] for key in sorted(dicoDescriptions.keys())]
+plt.bar(range(len(list2)), list2)
+plt.title("Produits avec description ")
+plt.ylabel("nombre de produits avec description")
+plt.xticks(range(len(dicoDescriptions.keys())),sorted(dicoDescriptions.keys()) , rotation='vertical')
+plt.show()
 
 ## fonction qui pour un article d'entrainement sans description renvoie la description d'un fichier similaire
 ## (donc de même catégorie) 
