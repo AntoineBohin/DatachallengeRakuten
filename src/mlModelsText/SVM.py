@@ -55,7 +55,16 @@ def predict_model_svm(Tfidf_matrix_to_predict,csv_to_predict):
             df_predictions.loc[k]=[df_with_information['IntegerID'][k],predictions_SVM[k]]
         df_predictions.to_csv('./output/prediction_without_labels_svm.csv', index=False)
 
-predict_model_svm(X_tfidf_sample[:100],'./dataset/processedWithDescription/processed_X_Y_train_with_description.csv')
+#predict_model_svm(X_tfidf_sample[:100],'./dataset/processedWithDescription/processed_X_Y_train_with_description.csv')
+
+# On choisit 10 valeurs pour C, entre 1e-2 et 1e3
+C_range = np.logspace(-1, 1, 10)
+
+# On choisit 10 valeurs pour gamma, entre 1e-2 et 10
+gamma_range = np.logspace(-3, -1, 20)
+
+# grille de paramètres
+param_grid = {'C': C_range, 'gamma': gamma_range}
 
 
 """

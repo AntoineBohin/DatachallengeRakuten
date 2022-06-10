@@ -31,6 +31,18 @@ def processed_and_concatenated_X_Y(path_of_the_processed_X_Y,path_of_the_process
                 processed_df["TitleAndDescription"][k]=str(processed_df["Title"][k])+str(processed_df["Description"][k])
     processed_df.to_csv(path_of_the_processed_and_concatenated_X_Y, index=False)
 
+def join_Y_test(Y_test,X_output):
+    name_of_the_model=X_output.split('_')[3].split('.')[0]
+    y_df=pd.read_csv(Y_test,names=['ProductID', 'RealProductTypeCode'],skiprows=[0])
+    x_output=pd.read_csv(X_output,names=['IntegerID', 'CodePrediction'],skiprows=[0])
+    x_output["RealProductTypeCode"]=""
+    for k in range(len(x_output)):
+        x_output["RealProductTypeCode"][k]=y_df['RealProductTypeCode'][k]
+    x_output.to_csv("./output/resultat"+name_of_the_model+'.csv', index=False)
+
+
+join_Y_test('./dataset/baseData/Y_test.csv','./output/prediction_without_labels_logisticregression.csv')
+
 """
 X_tfidf_sample= tfidf.fit_transform(seq)
 print("Shape of the TF-IDF Matrix:")

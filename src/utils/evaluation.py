@@ -84,7 +84,10 @@ def evaluation_with_confusion_matrix(path_of_the_output_dataframe):
 
 
 if __name__ == '__main__':
-    evaluation_with_confusion_matrix('./output/prediction_MultinomialNB.csv')
+    #customnn
+    #multinomialnb
+    #svm
+    evaluation_with_confusion_matrix('./output/y_pred_gr7.csv')
 
 
 """

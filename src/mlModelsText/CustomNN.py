@@ -34,9 +34,10 @@ def build_custom_nn():
     model.add(Dropout(0.3))
     model.add(Dense(27, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-#     model.summary()
+    model.summary()
     return model
 
+build_custom_nn()
 
 def train_model(X_tfidf_sample, ProductTypeCodes,model_path=DEFAULT_MODEL_PATH,build_new_nn=BUILD_NEW_NN):
     if build_new_nn:
@@ -71,7 +72,7 @@ def evaluate_model_customnn(Tfidf_matrix_to_evaluate,ProductTypeCodes):
         df_predictions["RealProductTypeCodes"]=""
 
         lb = LabelEncoder()
-        estimator = keras.models.load_model('./data/new_model_with_description.h5')
+        estimator = keras.models.load_model('./data/new_model__with_description.h5')
         y_encoded = lb.fit_transform(ProductTypeCodes)
         good_predictions=0
         number_of_predictions=0

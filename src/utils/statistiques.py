@@ -109,10 +109,10 @@ print(classes)
 print(dicoDescriptions)
 for key in dicoDescriptions.keys():
     print(classes[key], dicoDescriptions[key])
-    dicoDescriptions[key] = dicoDescriptions[key] / classes[key]
+    dicoDescriptions[key] = 1 - dicoDescriptions[key] / classes[key]
 list2 = [dicoDescriptions[key] for key in sorted(dicoDescriptions.keys())]
 plt.bar(range(len(list2)), list2)
-plt.title("Produits avec description ")
+plt.title("Produits sans description ")
 plt.ylabel("nombre de produits avec description")
 plt.xticks(range(len(dicoDescriptions.keys())),sorted(dicoDescriptions.keys()) , rotation='vertical')
 plt.show()
