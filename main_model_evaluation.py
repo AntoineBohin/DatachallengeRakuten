@@ -84,9 +84,8 @@ def parse_evaluate_args(
 
 
 
-"""
+
 if __name__ == '__main__':
     args = parse_evaluate_args(sys.argv[1:])
     args_dict = convert_args_to_dict(args)
     main_model_evaluation(**args_dict)
-"""

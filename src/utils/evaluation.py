@@ -25,6 +25,9 @@ def evaluation_with_confusion_matrix(path_of_the_output_dataframe):
     output_df=pd.read_csv(path_of_the_output_dataframe, names=['IntegerID','CodePredictions','RealProductTypeCodes'],skiprows=[0])
     inter_class_predictions={}
     inter_class_real={}
+    inter_class_good_predictions = {}
+    inter_class_precision={}
+    inter_class_recall = {}
     prediction_vector=[]
     real_vector=[]
     labels=sorted(output_df['RealProductTypeCodes'].unique().tolist())
@@ -32,6 +35,7 @@ def evaluation_with_confusion_matrix(path_of_the_output_dataframe):
     for k in range(len(labels)):
         inter_class_predictions[labels[k]]=0
         inter_class_real[labels[k]]=0
+        inter_class_good_predictions[labels[k]]=0
         if k%2==0:
             labels_left.append(labels[k])
     print(inter_class_predictions)
@@ -39,9 +43,14 @@ def evaluation_with_confusion_matrix(path_of_the_output_dataframe):
     for k in range(len(output_df)):
         prediction_vector.append(output_df["CodePredictions"][k])
         real_vector.append(output_df["RealProductTypeCodes"][k])
-            
-        #inter_class_good_predictions[output_df["CodePredictions"][k]]+=1
+        if output_df['CodePredictions'] == output_df['RealProductTypeCodes']:
+            inter_class_good_predictions[output_df["CodePredictions"][k]]+=1
         inter_class_real[output_df["RealProductTypeCodes"][k]]+=1
+    for k in range(len(inter_class_real)):
+        inter_class_precision[k] = inter_class_good_predictions[k] / inter_class_predictions[k]
+        inter_class_recall[k] = inter_class_good_predictions[k] / inter_class_real[k] 
+        print('presicion{}'.format(k),inter_class_precision)
+        print('recall{}'.format(k), inter_class_recall)
     print(inter_class_predictions)
     print(j)
     prediction_vector=np.array(prediction_vector)
