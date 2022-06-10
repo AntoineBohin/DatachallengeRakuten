@@ -10,13 +10,15 @@ import keras
 from sklearn.preprocessing import LabelEncoder
 from keras.utils import np_utils
 
-train_csv = pd.read_csv('dataset/processed_and_concatenated_X_Y_train_with_description.csv', index_col=0)
-X_tfidf_sample = sparse.load_npz("./dataset/X_consolidated_without_numbers_with_description.npz")
+#train_csv = pd.read_csv('dataset/processed_and_concatenated_X_Y_train_with_description.csv', index_col=0)
+#X_tfidf_sample = sparse.load_npz("./dataset/X_consolidated_without_numbers_with_description.npz")
 
 DEFAULT_MODEL_PATH='./data/new_model.h5'
 BUILD_NEW_NN=False
 VOCABULARY_LENGTH=102902
 
+train_csv = pd.read_csv('./dataset/processedWithDescription/processed_and_concatenated_X_Y_train_with_description.csv', index_col=0)
+ProductTypeCodesTrain=train_csv["ProductTypeCode"]
 
 def build_custom_nn():
     model = Sequential()
@@ -70,20 +72,42 @@ def evaluate_model_customnn(Tfidf_matrix_to_evaluate,ProductTypeCodes):
 
         lb = LabelEncoder()
         estimator = keras.models.load_model('./data/new_model_with_description.h5')
-
+        y_encoded = lb.fit_transform(ProductTypeCodes)
         good_predictions=0
         number_of_predictions=0
-        for k in range(len(Tfidf_matrix_to_evaluate)):
+        (a,b)=Tfidf_matrix_to_evaluate.shape
+        for k in range(a):
             y_test = estimator.predict(Tfidf_matrix_to_evaluate[k].toarray())
             y_classes = y_test.argmax(axis=-1)
             y_pred = lb.inverse_transform(y_classes)
             number_of_predictions+=1
-            if y_pred[0]==ProductTypeCodes[k]:
+            if y_pred[0]==ProductTypeCodes.iloc[k]:
                 good_predictions+=1
-            df_predictions.loc[k]=[k,y_pred[0],ProductTypeCodes[k]]
-            print(k,y_pred,ProductTypeCodes[k])
+            df_predictions.loc[k]=[k,y_pred[0],ProductTypeCodes.iloc[k]]
+            #print(k,y_pred,ProductTypeCodes[k])
         df_predictions.to_csv('./output/prediction_customNN.csv', index=False)
-        print("Global Accuracy is",good_predictions/number_of_predictions)
+
+def predict_model_customnn(Tfidf_matrix_to_predict,csv_to_predict):
+    (a,b)=Tfidf_matrix_to_predict.shape
+    if not b==VOCABULARY_LENGTH:
+        print("Your vocabulary size is not the same as the one used by the model !")
+    else:
+        df_with_information=pd.read_csv(csv_to_predict, names=['IntegerID', 'Title', 'Description', 'ProductID', 'ImageID'],skiprows=[0])
+
+        df_predictions = pd.DataFrame()
+        df_predictions["IntegerID"]=""
+        df_predictions["CodePredictions"]=""
+        lb = LabelEncoder()
+        estimator = keras.models.load_model('./models/customnn/new_model_with_description.h5')
+        y_encoded=lb.fit_transform(ProductTypeCodesTrain)
+        (a,b)=Tfidf_matrix_to_predict.shape
+        for k in range(a):
+            y_test = estimator.predict(Tfidf_matrix_to_predict[k].toarray())
+            y_classes = y_test.argmax(axis=-1)
+            y_pred = lb.inverse_transform(y_classes)
+            df_predictions.loc[k]=[df_with_information['IntegerID'][k],y_pred[0]]
+        df_predictions.to_csv('./output/prediction_without_labels_customNN.csv', index=False)
+
 
 def convert_sparse_matrix_to_sparse_tensor(X):
     coo = X.tocoo()

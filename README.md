@@ -24,13 +24,27 @@ C'est le fichier principal de ce projet qui permet de lancer, en l'appelant en l
 
 ## Exécuter le Code 
 
-Pour exécuter le code, il suffit de rentrer dans le terminal la commande suivante :  
+Pour exécuter le code, vous avez le choix entre deux possibilités.
+
+### Evaluation d'un modèle sur une base de données annotées
+
+Si vous voulez prédire les classes d'un ensemble de produits (dont les informations sont réunies dans un fichier .csv dont les colonnes sont "IntegerID", "Titre", "Description", "ProductID", "ImageID"), vous pouvez exécuter la ligne de code suivante dans votre terminal. Le paramètre --csv-to-test correspond au path de votre .csv test, --path-root au dossier dans lequel vous souhaitez stocker les .csv et matrices pré-traitées utilisées par les algorithmes, et --model le modèle que vous souhaitez utiliser (entre 'multinomialnb', 'customnn', 'svm', 'logisticregression').
 
 ```bash
-python3  -m app.py
+python3 main_prediction.py --csv-to-test 'dataset/baseData/X_test_update.csv' --path-root 'dataset/test/' --model 'multinomialnb'
 ```
 
-Cette ligne de commande permet de lancer le fichier `app.py` on peut ensuite
+Le resultat est stocké dans un fichier .csv nommé prediction_without_labels_{nommodèle} dans le dossier output. Il contient les colonnes "IntegerID" et "ProductTypeCode", pour la classe de produit prédite.
+
+### Prédiction des classes d'un ensemble de produits avec un certain modèle
+
+Si vous voulez évaluer un des modèles implémentés en utilisant un ensemble de produits (dont les informations sont réunies dans un fichier .csv X_test dont les colonnes sont "IntegerID", "Titre", "Description", "ProductID", "ImageID") et leurs classes de produit associées (dont les informations sont réunies dans un fichier .csv Y_test dont les colonnes sont "IntegerID", "ProductTypeCode"), vous pouvez exécuter la ligne de code suivante dans votre terminal. Le paramètre --csv-X-test correspond au path de votre .csv X_test, --csv-Y-test correspond au path de votre .csv Y_test, --path-root au dossier dans lequel vous souhaitez stocker les .csv et matrices pré-traitées utilisées par les algorithmes, et --model le modèle que vous souhaitez utiliser (entre 'multinomialnb', 'customnn', 'svm', 'logisticregression').
+
+```bash
+python3 main_evaluation.py --csv-X-test 'dataset/baseData/X_test_update.csv' --csv-Y-test 'dataset/baseData/Y_test_update.csv' --path-root 'dataset/test/' --model 'multinomialnb'
+```
+
+e resultat est stocké dans un fichier .csv nommé prediction_{nommodèle} dans le dossier output. Il contient les colonnes "IntegerID","CodePredictions" et " RealProductTypeCodes".
 
 ## Le preprocessing des données d'entrée
 
