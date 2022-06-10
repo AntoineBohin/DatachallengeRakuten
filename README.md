@@ -73,9 +73,9 @@ Pour pouvoir espérer traiter des images par ordinateur on doit lui donner des i
 ## Les modèles de machine Learning utilisés pour la classification de texte 
 
 On a pu utiliser au cours de ce projet 3 modèles de machine learning différents pour permettre une précision, la plus précise possible, de la catégorie d'un produit inconnu sur le site de rakuten:  
-    • **Multinomial Naive Bayes**
-    • **SVM**
-    • un modèle customisé de réseaux de neurones
+    • **Multinomial Naive Bayes**  
+    • **SVM**  
+    • un modèle customisé de réseaux de neurones  
 
 ## La classification par reconnaissance d'images 
 
