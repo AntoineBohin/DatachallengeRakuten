@@ -19,6 +19,9 @@ Contient l'ensemble des scripts python ainsi que les modèles de machine learnin
     • `models` contient les modèles svm entrainés sur les dataset de training.  
     • `utils` contient d'autres scripts de traitement de l'information comme `statistiques.py` qui permet d'accéder à des informations numériques relatives à la composition du dataset.
 
+**app.py**
+C'est le fichier principal de ce projet qui permet de lancer, en l'appelant en ligne de commande, dans un premier temps l'évaluation d'un modèle et dans un second temps de faire une prédiction pour la catégorie pour un produit inconnu. 
+
 ## Exécuter le Code 
 
 Pour exécuter le code, il suffit de rentrer dans le terminal la commande suivante :  
